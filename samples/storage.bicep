@@ -75,9 +75,21 @@ resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
   properties: {
     sku:{
       name: 'standard'
-      family: 'standard'
+      family: 'A'
     }
     tenantId: subscription().tenantId
+    accessPolicies:[
+      {
+        objectId: myApp.identity.principalId
+        tenantId: subscription().tenantId
+        permissions:{
+          secrets:[
+            'get'
+            'list'
+          ]
+        }
+      }
+    ]
   }
 }
 
